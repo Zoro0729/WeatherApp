@@ -358,6 +358,117 @@ body {
   transform: rotate(90deg);
 }
 
+/* QUICK STAT TILES */
+.stat-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.stat-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 12px 12px;
+  border-radius: 16px;
+  background: #fff;
+  border: 2px solid transparent;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.stat-tile span {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1a1a2e;
+  letter-spacing: 0.02em;
+}
+
+.stat-tile svg {
+  width: 32px;
+  height: 32px;
+  color: #667eea;
+  transition: transform 0.2s;
+}
+
+.stat-tile:hover {
+  border-color: #667eea;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.22);
+  background: #f0f3ff;
+}
+
+.stat-tile.active,
+.stat-tile:active {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-color: transparent;
+}
+
+.stat-tile.active span,
+.stat-tile:active span {
+  color: #fff;
+}
+
+.stat-tile.active svg,
+.stat-tile:active svg {
+  color: #fff;
+  transform: scale(1.1);
+}
+
+/* EXPANDED STAT DETAIL */
+.stat-detail {
+  position: relative;
+  background: linear-gradient(135deg, #1a1a2e, #2d1f5e);
+  color: #fff;
+  border-radius: 20px;
+  padding: 2.5rem 2rem 2rem;
+  text-align: center;
+  width: 100%;
+  max-width: 340px;
+  box-shadow: 0 8px 32px rgba(26, 26, 46, 0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.stat-detail.fadeInUp {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+.stat-detail.fadeInUp.sunrise { background: linear-gradient(135deg, #f6ad55, #ed8936); }
+.stat-detail.fadeInUp.humidity { background: linear-gradient(135deg, #4299e1, #3182ce); }
+.stat-detail.fadeInUp.wind      { background: linear-gradient(135deg, #48bb78, #38a169); }
+.stat-detail.fadeInUp.feelsLike { background: linear-gradient(135deg, #ed64a6, #d53f8c); }
+.stat-detail.fadeInUp.visibility { background: linear-gradient(135deg, #667eea, #764ba2); }
+.stat-detail.fadeInUp.pressure  { background: linear-gradient(135deg, #9f7aea, #805ad5); }
+
+.stat-detail .close-btn {
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  font-size: 15px;
+  padding: 2px 4px;
+}
+
+.stat-detail h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.stat-detail p {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
 /* RESPONSIVE */
 @media (max-width: 600px) {
   .sidebar {

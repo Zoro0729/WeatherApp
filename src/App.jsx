@@ -10,6 +10,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [notFoundCity, setNotFoundCity] = useState(null);
+  const [activeStat, setActiveStat] = useState(null);
 
   const cities = [
     "Hyderabad", "Karimnagar", "Delhi", "Mumbai", "Chennai",
@@ -147,6 +148,135 @@ function App() {
             </p>
           ))}
         </div>
+
+        {/* QUICK STAT ICON TILES */}
+        <div className="stat-tiles">
+          <button
+            className={`stat-tile ${activeStat === "sunrise" ? "active" : ""}`}
+            onClick={() => setActiveStat(activeStat === "sunrise" ? null : "sunrise")}
+            title="Sunrise & Sunset"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="17 18 15 22 9 22 7 18" />
+              <path d="M22 6 20 10 18 4" />
+              <path d="M2 6 4 10 6 4" />
+              <path d="M12 18c-2.5 0-4.5-1.7-5.2-4" />
+              <path d="M12 2c2.5 0 4.5 2 5.2 4" />
+              <line x1="2" y1="6" x2="22" y2="6" />
+              <line x1="22" y1="6" x2="22" y2="14" />
+              <line x1="2" y1="6" x2="2" y2="14" />
+            </svg>
+            <span>Sun Times</span>
+          </button>
+
+          <button
+            className={`stat-tile ${activeStat === "humidity" ? "active" : ""}`}
+            onClick={() => setActiveStat(activeStat === "humidity" ? null : "humidity")}
+            title="Humidity"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
+            </svg>
+            <span>Humidity</span>
+          </button>
+
+          <button
+            className={`stat-tile ${activeStat === "wind" ? "active" : ""}`}
+            onClick={() => setActiveStat(activeStat === "wind" ? null : "wind")}
+            title="Wind"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="m9.59 4.59 2 2" />
+              <path d="M17 4h4l-4 13H7a1 1 0 0 1-1-1V8a2 2 0 0 1 2-2h8z" />
+              <path d="m17 10-4 13" />
+            </svg>
+            <span>Wind</span>
+          </button>
+
+          <button
+            className={`stat-tile ${activeStat === "feelsLike" ? "active" : ""}`}
+            onClick={() => setActiveStat(activeStat === "feelsLike" ? null : "feelsLike")}
+            title="Feels Like"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z" />
+            </svg>
+            <span>Feels Like</span>
+          </button>
+
+          <button
+            className={`stat-tile ${activeStat === "visibility" ? "active" : ""}`}
+            onClick={() => setActiveStat(activeStat === "visibility" ? null : "visibility")}
+            title="Visibility"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+            <span>Visibility</span>
+          </button>
+
+          <button
+            className={`stat-tile ${activeStat === "pressure" ? "active" : ""}`}
+            onClick={() => setActiveStat(activeStat === "pressure" ? null : "pressure")}
+            title="Pressure"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 2v20" />
+              <path d="M2 5h20" />
+              <path d="M2 19h20" />
+              <path d="M4 2h16" />
+              <path d="M6 2v20" />
+              <path d="M18 2v20" />
+            </svg>
+            <span>Pressure</span>
+          </button>
+        </div>
+
+        {/* EXPANDED STAT DETAIL */}
+        {activeStat && weather && weather.main && (
+          <div className={`stat-detail fadeInUp ${activeStat}`}>
+            <button className="close-btn" onClick={() => setActiveStat(null)}>✕</button>
+            {activeStat === "sunrise" && (
+              <>
+                <h3>{new Date(weather.sys.sunrise * 1000).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</h3>
+                <p>Sunrise</p>
+                <p style={{ marginTop: 32, fontSize: 20, fontWeight: 700 }}>{new Date(weather.sys.sunset * 1000).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</p>
+                <p>Sunset</p>
+              </>
+            )}
+            {activeStat === "humidity" && (
+              <>
+                <h3>{weather.main.humidity}%</h3>
+                <p>Relative Humidity</p>
+              </>
+            )}
+            {activeStat === "wind" && (
+              <>
+                <h3>{(weather.wind.speed * 3.6).toFixed(1)} km/h</h3>
+                <p>Wind Speed {weather.wind.deg ? `· ${weather.wind.deg}°` : ""}</p>
+              </>
+            )}
+            {activeStat === "feelsLike" && (
+              <>
+                <h3>{weather.main.feels_like}°C</h3>
+                <p>Feels Like Temperature</p>
+              </>
+            )}
+            {activeStat === "visibility" && (
+              <>
+                <h3>{(weather.visibility / 1000).toFixed(1)} km</h3>
+                <p>Visibility</p>
+              </>
+            )}
+            {activeStat === "pressure" && (
+              <>
+                <h3>{weather.main.pressure.toLocaleString()} hPa</h3>
+                <p>Atmospheric Pressure (Sea Level)</p>
+              </>
+            )}
+          </div>
+        )}
 
         {!weather && !loading && !notFoundCity && (
           <div className="default-screen">
